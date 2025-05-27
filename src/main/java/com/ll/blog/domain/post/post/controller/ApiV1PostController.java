@@ -1,15 +1,52 @@
 package com.ll.blog.domain.post.post.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ll.blog.domain.post.post.dto.PostRequest;
+import com.ll.blog.domain.post.post.dto.PostResponse;
+import com.ll.blog.domain.post.post.service.PostService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/post")
+import java.util.List;
+
+// 게시글 관련 API를 처리하는 REST 컨트롤러
+// URL : /api/v1/posts
+@RestController // REST API 전용 컨트롤러 (JSON 응답)
+@RequestMapping("/api/v1/posts") // 해당 컨드롤러의 기본 url
+@RequiredArgsConstructor // 의존성 주입 위한 생성자 자동 생성
 public class ApiV1PostController {
+    private final PostService postService;
 
+//    게시글 생성
+    @PostMapping
+    public ResponseEntity<String> createPost(@RequestBody PostRequest request) {
+        postService.create(request);
+        return ResponseEntity.ok("글이 등록되었습니다.");
+    }
+
+//    (전체) 게시글 조회
     @GetMapping
-    public void post() {
-        return;
+    public ResponseEntity<List<PostResponse>> getAllPost() {
+        return ResponseEntity.ok(postService.findAll());
+    }
+
+//    (단일) 게시글 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.findById(id));
+    }
+
+//    게시글 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePost(@PathVariable Long id, @RequestBody PostRequest request) {
+        postService.update(id, request);
+        return ResponseEntity.ok("글이 수정되었습니다.");
+    }
+
+//    게시글 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Long id) {
+        postService.delete(id);
+        return ResponseEntity.ok("글이 삭제되었습니다.");
     }
 }

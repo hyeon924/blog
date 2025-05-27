@@ -45,6 +45,7 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalCallerException("해당 글이 없습니다."));
         post.update(request.getTitle(), request.getContent());
+        postRepository.save(post);
     }
 
 //    게시글 삭제
