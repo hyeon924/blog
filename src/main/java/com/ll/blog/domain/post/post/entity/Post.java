@@ -30,4 +30,10 @@ public class Post extends BaseTime {
 //    Not null
     @Column(columnDefinition = "TEXT", nullable = false) // TEXT 타입으로 지정
     private String content;
+
+//    게시글 제목/내용 수정 메서드
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

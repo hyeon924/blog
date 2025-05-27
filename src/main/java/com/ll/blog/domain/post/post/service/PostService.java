@@ -1,25 +1,54 @@
 package com.ll.blog.domain.post.post.service;
 
+import com.ll.blog.domain.post.post.dto.PostRequest;
+import com.ll.blog.domain.post.post.dto.PostResponse;
 import com.ll.blog.domain.post.post.entity.Post;
 import com.ll.blog.domain.post.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
+import java.util.List;
+import java.util.stream.Collectors;
+
+// 게시글 비즈니스 로직을 담당
+// controller <-> repository 사이의 중간 계층 역할
+@Service // 이 클래스가 서비스 컴포넌트임을 Spring에게 알림 (Bean 등록)
+@RequiredArgsConstructor // final 필드에 대해 생성자 자동 생성 (의존성주입)
 public class PostService {
     private final PostRepository postRepository;
 
-    public long count() {
-        return postRepository.count();
+//    게시글 생성
+    public void create(PostRequest request) {
+        Post post = Post.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .build();
+        postRepository.save(post);
     }
 
-    public Post write(String title, String content) {
-        Post post = Post.builder()
-                .title(title)
-                .content(content)
-                .build();
+//    전체 게시글 조회
+    public List<PostResponse> findAll() {
+        return postRepository.findAll().stream()
+                .map(PostResponse::from)
+                .collect(Collectors.toList());
+    }
 
-        return postRepository.save(post);
+//    단일 게시글 조회
+    public PostResponse findById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 글이 없습니다."));
+        return PostResponse.from(post);
+    }
+
+//    게시글 수정
+    public void update(Long id, PostRequest request) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalCallerException("해당 글이 없습니다."));
+        post.update(request.getTitle(), request.getContent());
+    }
+
+//    게시글 삭제
+    public void delete(Long id) {
+        postRepository.deleteById(id);
     }
 }
