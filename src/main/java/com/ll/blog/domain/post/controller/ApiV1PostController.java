@@ -1,8 +1,8 @@
-package com.ll.blog.domain.post.post.controller;
+package com.ll.blog.domain.post.controller;
 
-import com.ll.blog.domain.post.post.dto.PostRequest;
-import com.ll.blog.domain.post.post.dto.PostResponse;
-import com.ll.blog.domain.post.post.service.PostService;
+import com.ll.blog.domain.post.dto.PostRequest;
+import com.ll.blog.domain.post.dto.PostResponse;
+import com.ll.blog.domain.post.service.PostService;
 import com.ll.blog.global.response.StandardApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +39,9 @@ public class ApiV1PostController {
 
 //    게시글 수정
     @PutMapping("/{id}")
-    public ResponseEntity<StandardApiResponse<Void>> updatePost(@PathVariable Long id, @RequestBody PostRequest request) {
-        postService.update(id, request);
-        return ResponseEntity.ok(StandardApiResponse.success("글이 수정되었습니다."));
+    public ResponseEntity<StandardApiResponse<PostResponse>> updatePost(@PathVariable Long id, @RequestBody PostRequest request) {
+        PostResponse response = postService.updateAndReturn(id, request);
+        return ResponseEntity.ok(StandardApiResponse.success("글이 수정되었습니다.", response));
     }
 
 //    게시글 삭제

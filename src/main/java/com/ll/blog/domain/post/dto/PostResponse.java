@@ -1,7 +1,7 @@
-package com.ll.blog.domain.post.post.dto;
+package com.ll.blog.domain.post.dto;
 
 
-import com.ll.blog.domain.post.post.entity.Post;
+import com.ll.blog.domain.post.entity.Post;
 import lombok.Builder;
 import lombok.Getter;
 

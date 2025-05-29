@@ -1,9 +1,9 @@
-package com.ll.blog.domain.post.post.service;
+package com.ll.blog.domain.post.service;
 
-import com.ll.blog.domain.post.post.dto.PostRequest;
-import com.ll.blog.domain.post.post.dto.PostResponse;
-import com.ll.blog.domain.post.post.entity.Post;
-import com.ll.blog.domain.post.post.repository.PostRepository;
+import com.ll.blog.domain.post.dto.PostRequest;
+import com.ll.blog.domain.post.dto.PostResponse;
+import com.ll.blog.domain.post.entity.Post;
+import com.ll.blog.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,11 +43,14 @@ public class PostService {
     }
 
 //    게시글 수정
-    public void update(Long id, PostRequest request) {
+    public PostResponse updateAndReturn(Long id, PostRequest request) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalCallerException("해당 글이 없습니다."));
+                .orElseThrow(() -> new IllegalCallerException("해당 Id의 게시글이 존재하지 않습니다."));
+
         post.update(request.getTitle(), request.getContent());
-        postRepository.save(post);
+
+        Post update = postRepository.save(post);
+        return PostResponse.from(update);
     }
 
 //    게시글 삭제

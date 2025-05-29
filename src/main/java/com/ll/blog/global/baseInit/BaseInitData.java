@@ -1,6 +1,6 @@
 package com.ll.blog.global.baseInit;
 
-import com.ll.blog.domain.post.post.service.PostService;
+import com.ll.blog.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;

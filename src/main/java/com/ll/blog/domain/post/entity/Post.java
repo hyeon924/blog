@@ -1,4 +1,4 @@
-package com.ll.blog.domain.post.post.entity;
+package com.ll.blog.domain.post.entity;
 
 import com.ll.blog.global.jpa.entity.BaseTime;
 import jakarta.persistence.*;
