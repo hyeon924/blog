@@ -3,6 +3,7 @@ package com.ll.blog.domain.post.service;
 import com.ll.blog.domain.post.dto.PostRequest;
 import com.ll.blog.domain.post.dto.PostResponse;
 import com.ll.blog.domain.post.entity.Post;
+import com.ll.blog.domain.post.exception.PostNotFoundException;
 import com.ll.blog.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class PostService {
 //    게시글 수정
     public PostResponse updateAndReturn(Long id, PostRequest request) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalCallerException("해당 Id의 게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new PostNotFoundException(id));
 
         post.update(request.getTitle(), request.getContent());
 

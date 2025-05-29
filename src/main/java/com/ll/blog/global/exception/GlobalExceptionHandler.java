@@ -1,5 +1,6 @@
 package com.ll.blog.global.exception;
 
+import com.ll.blog.domain.post.exception.PostNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,17 @@ public class GlobalExceptionHandler {
 //    존재하지 않는 리소스를 요청했을 때 발생하는 예외를 처리
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<GlobalErrorResponse> handleIllegalArgument(IllegalArgumentException e) {
+        GlobalErrorResponse response = GlobalErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
+                .build();
+        return ResponseEntity.badRequest().body(response);
+    }
+
+//    존재하지 않는 id를 수정할때 발생하는 에러 처리
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<GlobalErrorResponse> handlePostNotFound(PostNotFoundException e) {
         GlobalErrorResponse response = GlobalErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
