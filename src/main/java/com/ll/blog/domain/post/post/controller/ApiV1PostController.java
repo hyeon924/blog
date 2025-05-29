@@ -20,9 +20,9 @@ public class ApiV1PostController {
 
 //    게시글 생성
     @PostMapping
-    public ResponseEntity<StandardApiResponse<Void>> createPost(@RequestBody PostRequest request) {
-        postService.create(request);
-        return ResponseEntity.ok(StandardApiResponse.success("글이 작성되었습니다."));
+    public ResponseEntity<StandardApiResponse<PostResponse>> createPost(@RequestBody PostRequest request) {
+        PostResponse response = postService.createAndReturn(request);
+        return ResponseEntity.ok(StandardApiResponse.success("글이 작성되었습니다.", response));
     }
 
 //    (전체) 게시글 조회

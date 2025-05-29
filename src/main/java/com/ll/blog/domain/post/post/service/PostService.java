@@ -18,12 +18,14 @@ public class PostService {
     private final PostRepository postRepository;
 
 //    게시글 생성
-    public void create(PostRequest request) {
+    public PostResponse createAndReturn(PostRequest request) {
         Post post = Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .build();
-        postRepository.save(post);
+
+        Post saved = postRepository.save(post);
+        return PostResponse.from(saved);
     }
 
 //    전체 게시글 조회
