@@ -48,6 +48,7 @@ public class ApiV1PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<StandardApiResponse<Void>> deletePost(@PathVariable Long id) {
         postService.delete(id);
-        return ResponseEntity.ok(StandardApiResponse.success("글이 삭제되었습니다."));
+        String message = id + "번 게시글이 삭제되었습니다.";
+        return ResponseEntity.ok(StandardApiResponse.success(message));
     }
 }

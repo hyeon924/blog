@@ -56,6 +56,9 @@ public class PostService {
 
 //    게시글 삭제
     public void delete(Long id) {
-        postRepository.deleteById(id);
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new PostNotFoundException(id));
+
+        postRepository.delete(post);
     }
 }
