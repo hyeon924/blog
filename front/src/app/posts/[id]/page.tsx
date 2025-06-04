@@ -103,7 +103,7 @@ export default function PostDetailPage() {
       <div
         className={`px-4 py-2 rounded-full ${bgColor} font-semibold flex items-center gap-2`}
       >
-        <span className="text-lg">{emoji}ㅁㅁ</span>
+        <span className="text-lg">{emoji}</span>
         <span>{emotion}</span>
       </div>
     );
