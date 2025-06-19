@@ -5,15 +5,34 @@ import { useEffect, useState } from "react";
 
 export default function MyPage() {
   const router = useRouter();
-  // 임시 데이터, 실제로는 API에서 받아와야 함
   const [nickname, setNickname] = useState("닉네임");
-  const [email, setEmail] = useState("user@email.com");
+  const [postCount, setPostCount] = useState(0);
 
   useEffect(() => {
-    // TODO: 실제 사용자 정보 fetch
-    // setNickname(...)
-    // setEmail(...)
-  }, []);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/users/login");
+      return;
+    }
+
+    fetch("http://localhost:8080/my", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("인증 실패");
+        return res.json();
+      })
+      .then((json) => {
+        setNickname(json.data.nickname);
+        setPostCount(json.data.postCount);
+      })
+      .catch(() => {
+        alert("로그인이 필요합니다.");
+        router.push("/users/login");
+      });
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -38,7 +57,7 @@ export default function MyPage() {
             </span>
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mt-2">{nickname}</h2>
-          <p className="text-gray-500 text-sm">{email}</p>
+          <p className="text-gray-500 text-sm">총 게시글 {postCount}개</p>
         </div>
         <div className="space-y-4">
           <button
@@ -55,7 +74,7 @@ export default function MyPage() {
           </button>
           <button
             className="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition"
-            onClick={() => alert("비밀번호 변경 기능은 준비 중입니다.")}
+            onClick={() => alert("회원탈퇴 기능은 준비 중입니다.")}
           >
             회원탈퇴
           </button>
