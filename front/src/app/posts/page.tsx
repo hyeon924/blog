@@ -27,6 +27,7 @@ export default function PostListPage() {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
+  const [nickname, setNickname] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,7 +42,9 @@ export default function PostListPage() {
       .then(async (res) => {
         if (!res.ok) throw new Error("글 목록 불러오기 실패");
         const data = await res.json();
-        setPosts(data.data);
+        console.log("응답 :", data);
+        setPosts(data.data.posts);
+        setNickname(data.data.nickname);
       })
       .catch((err) => setError(err.message));
   }, []);
@@ -111,7 +114,9 @@ export default function PostListPage() {
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-4xl font-bold text-gray-800 flex items-center gap-3">
             <button className="text-3xl">🗂️</button>
-            <span>게시판</span>
+            <strong className="text-base font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm hover:scale-105 transition-transform duration-200">
+              {nickname}의 기록
+            </strong>
           </h1>
           <div className="flex gap-3">
             <button

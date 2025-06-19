@@ -5,6 +5,7 @@ import com.ll.blog.domain.post.dto.PostResponse;
 import com.ll.blog.domain.post.entity.Post;
 import com.ll.blog.domain.post.exception.PostNotFoundException;
 import com.ll.blog.domain.post.repository.PostRepository;
+import com.ll.blog.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor // final 필드에 대해 생성자 자동 생성 (의존성주입)
 public class PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
 //    게시글 생성 (작성자만 가능)
     public PostResponse createAndReturn(PostRequest request, UserDetails userDetails) {
@@ -81,4 +83,9 @@ public class PostService {
         postRepository.delete(post);
     }
 
+    public String findNickname(UserDetails userDetails) {
+        return userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"))
+                .getNickname();
+    }
 }

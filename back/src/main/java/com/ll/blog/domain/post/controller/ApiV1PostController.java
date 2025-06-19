@@ -1,5 +1,6 @@
 package com.ll.blog.domain.post.controller;
 
+import com.ll.blog.domain.post.dto.PostListWithNicknameResponse;
 import com.ll.blog.domain.post.dto.PostRequest;
 import com.ll.blog.domain.post.dto.PostResponse;
 import com.ll.blog.domain.post.service.PostService;
@@ -29,8 +30,11 @@ public class ApiV1PostController {
 
 //    (전체) 게시글 조회
     @GetMapping
-    public ResponseEntity<StandardApiResponse<List<PostResponse>>> getAllPost(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(StandardApiResponse.success(postService.findAllByUser(userDetails)));
+    public ResponseEntity<StandardApiResponse<PostListWithNicknameResponse>> getAllPost(@AuthenticationPrincipal UserDetails userDetails) {
+        List<PostResponse> posts = postService.findAllByUser(userDetails);
+        String nickname = postService.findNickname(userDetails);
+        PostListWithNicknameResponse result = new PostListWithNicknameResponse(nickname, posts);
+        return ResponseEntity.ok(StandardApiResponse.success(result));
     }
 
 //    (단일) 게시글 조회
