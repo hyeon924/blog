@@ -26,11 +26,17 @@ public class PostService {
 
 //    게시글 생성 (작성자만 가능)
     public PostResponse createAndReturn(PostRequest request, UserDetails userDetails) {
+//        username으로 작성자를 식별
+        var user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
+
+//        PostRequest로부터 Post 엔티티 생성
         Post post = Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .emotion(request.getEmotion())
                 .author(userDetails.getUsername())
+                .user(user) // 작성자 정보 설정
                 .build();
 
         Post saved = postRepository.save(post);

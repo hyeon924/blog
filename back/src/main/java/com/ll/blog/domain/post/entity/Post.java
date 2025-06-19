@@ -1,8 +1,12 @@
 package com.ll.blog.domain.post.entity;
 
+import com.ll.blog.domain.user.entity.Users;
 import com.ll.blog.global.jpa.entity.BaseTime;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 // 게시글 정보를 저장하는 JPA 엔티티 클래스
 // DB 테이블과 매핑되는 클래스이며, 핵심 도메인 중 하나
@@ -42,4 +46,8 @@ public class Post extends BaseTime {
 
     @Column(nullable = true)
     private String emotion;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 }
