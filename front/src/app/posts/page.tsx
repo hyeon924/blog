@@ -113,7 +113,12 @@ export default function PostListPage() {
       <div className="bg-white rounded-xl shadow-lg p-8">
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-4xl font-bold text-gray-800 flex items-center gap-3">
-            <button className="text-3xl">🗂️</button>
+            <button
+              onClick={() => router.push("/users/my")}
+              className="text-3xl"
+            >
+              🗂️
+            </button>
             <strong className="text-base font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm hover:scale-105 transition-transform duration-200">
               {nickname}의 기록
             </strong>
