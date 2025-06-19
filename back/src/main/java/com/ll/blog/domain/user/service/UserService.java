@@ -1,5 +1,6 @@
 package com.ll.blog.domain.user.service;
 
+import com.ll.blog.domain.email.service.EmailVerificationService;
 import com.ll.blog.domain.user.dto.LoginRequest;
 import com.ll.blog.domain.user.dto.SignUpRequest;
 import com.ll.blog.domain.user.entity.Users;
@@ -16,11 +17,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final EmailVerificationService emailVerificationService;
 
     //    회원가입 로직
     public void signup(SignUpRequest request) {
+//        이메일 인증 코드 확인
+        boolean isVerified = emailVerificationService.verifyCode(request.getUsername(), request.getCode());
+        if (!isVerified) {
+            throw new IllegalArgumentException("이메일 인증에 실패했습니다. 올바른 인증 코드를 입력해주세요.");
+        }
+
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("이미 사용중인 이름입니다.");
+            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
         }
 
         if (userRepository.existsByNickname(request.getNickname())) {

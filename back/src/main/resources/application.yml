@@ -18,14 +18,14 @@ spring:
     password: 1234
     driver-class-name: org.postgresql.Driver
 
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: hyeonn4713@gmail.com
-#    password: anup azyn jjhd gfpn
-#    properties:
-#      mail.smtp.auth: true
-#      mail.smtp.starttls.enable: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hyeonn4713@gmail.com
+    password: anup azyn jjhd gfpn
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
   jpa:
     hibernate:
