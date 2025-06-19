@@ -6,7 +6,9 @@ import com.ll.blog.domain.user.dto.SignUpRequest;
 import com.ll.blog.domain.user.entity.Users;
 import com.ll.blog.domain.user.repository.UserRepository;
 import com.ll.blog.global.jwt.JwtProvider;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +57,21 @@ public class UserService {
         }
 
         return jwtProvider.generateToken(user.getUsername());
+    }
+
+//    탈퇴 로직
+    @Transactional
+    public void deleteCurrentUser(String inputCode) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        boolean verified = emailVerificationService.verifyCode(email, inputCode);
+        if (!verified) {
+            throw new IllegalArgumentException("탈퇴 인증 코드가 유효하지 않습니다.");
+        }
+
+        Users user = userRepository.findByUsername(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        userRepository.delete(user); // 사용자 삭제
     }
 }
