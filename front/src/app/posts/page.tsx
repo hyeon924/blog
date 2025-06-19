@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Post {
   id: number;
@@ -109,7 +110,7 @@ export default function PostListPage() {
       <div className="bg-white rounded-xl shadow-lg p-8">
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-4xl font-bold text-gray-800 flex items-center gap-3">
-            <span className="text-3xl">🗂️</span>
+            <button className="text-3xl">🗂️</button>
             <span>게시판</span>
           </h1>
           <div className="flex gap-3">
