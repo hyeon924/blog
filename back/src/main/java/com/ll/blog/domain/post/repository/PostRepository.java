@@ -16,4 +16,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByAuthor(String author);
 
     List<Post> findByUser(Users user);
+
+    int countByUser(Users user);       // ✅ 개수만 조회용
 }
