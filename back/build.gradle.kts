@@ -38,6 +38,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5") // 	JWT 생성/파싱용 핵심 API
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5") //	내부 구현체 (필수)
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5") // 	JSON 변환용 (compact() 시에 필요함)
+	implementation ("org.springframework.boot:spring-boot-starter-mail")
 }
 
 tasks.withType<Test> {

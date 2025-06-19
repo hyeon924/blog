@@ -17,14 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-//    회원가입
+    //    회원가입
     @PostMapping("/signup")
     public ResponseEntity<StandardApiResponse<Void>> signup(@RequestBody SignUpRequest request) {
-        userService.signup(request);
-        return ResponseEntity.ok(StandardApiResponse.success("회원가입 완료"));
+        try {
+            userService.signup(request);
+            return ResponseEntity.ok(StandardApiResponse.success("회원가입 완료"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(StandardApiResponse.error(e.getMessage()));
+        }
     }
 
-//    로그인
+
+    //    로그인
     @PostMapping("/login")
     public ResponseEntity<StandardApiResponse<String>> login(@RequestBody LoginRequest request) {
         String token = userService.login(request);

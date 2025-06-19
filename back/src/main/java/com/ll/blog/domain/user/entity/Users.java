@@ -17,6 +17,10 @@ public class Users extends BaseTime {
     @Column(nullable = false, unique = true, length = 30) // 중복X, 필수입력, 길이 제한 30
     private String username;
 
+//    닉네임
+    @Column(nullable = false, unique = true)
+    private String nickname;
+
     @Column(nullable = false) // 필수 입력
     private String password;
 

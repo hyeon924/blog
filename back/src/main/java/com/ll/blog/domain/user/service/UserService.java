@@ -17,14 +17,19 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-//    회원가입 로직
+    //    회원가입 로직
     public void signup(SignUpRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("이미 사용중인 이름입니다.");
         }
 
+        if (userRepository.existsByNickname(request.getNickname())) {
+            throw new IllegalArgumentException("이미 사용중인 닉네임입니다.");
+        }
+
         Users user = Users.builder()
                 .username(request.getUsername())
+                .nickname(request.getNickname())
                 .password(passwordEncoder.encode(request.getPassword())) // 암호화 필수
                 .role("ROLE_USER")
                 .build();
@@ -32,7 +37,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    로그인 로직
+    //    로그인 로직
     public String login(LoginRequest request) {
         Users user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
@@ -43,6 +48,4 @@ public class UserService {
 
         return jwtProvider.generateToken(user.getUsername());
     }
-
-
 }
