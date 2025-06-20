@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
 interface Post {
   id: number;
@@ -17,12 +17,12 @@ export default function PostDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (!token) {
-      router.push("/users/login");
+      router.push('/users/login');
       return;
     }
 
@@ -32,7 +32,7 @@ export default function PostDetailPage() {
       },
     })
       .then(async (res) => {
-        if (!res.ok) throw new Error("글 조회 실패");
+        if (!res.ok) throw new Error('글 조회 실패');
         const data = await res.json();
         setPost(data.data);
       })
@@ -42,67 +42,65 @@ export default function PostDetailPage() {
   }, [id, router]);
 
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleString("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date(dateStr).toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
   const handleDelete = async () => {
-    if (!confirm("정말 삭제하시겠습니까?")) return;
-    const token = localStorage.getItem("token");
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+    const token = localStorage.getItem('token');
     try {
       const res = await fetch(`http://localhost:8080/api/v1/posts/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       if (res.ok) {
-        alert("삭제 완료");
-        router.push("/posts");
+        alert('삭제 완료');
+        router.push('/posts');
       } else {
         const data = await res.json();
-        alert(data.message || "삭제 실패");
+        alert(data.message || '삭제 실패');
       }
     } catch (err) {
-      alert("서버 오류");
+      alert('서버 오류');
     }
   };
 
   const renderEmotion = (emotion: string | null) => {
-    if (!emotion) return "-";
+    if (!emotion) return '-';
     const emoji =
-      emotion === "happy"
-        ? "😊"
-        : emotion === "sad"
-        ? "😢"
-        : emotion === "angry"
-        ? "😠"
-        : emotion === "anxious"
-        ? "😨"
-        : emotion === "neutral"
-        ? "😐"
-        : "❔";
+      emotion === 'happy'
+        ? '😊'
+        : emotion === 'sad'
+          ? '😢'
+          : emotion === 'angry'
+            ? '😠'
+            : emotion === 'anxious'
+              ? '😨'
+              : emotion === 'neutral'
+                ? '😐'
+                : '❔';
 
     const bgColor =
-      emotion === "happy"
-        ? "bg-yellow-100 text-yellow-800"
-        : emotion === "sad"
-        ? "bg-blue-100 text-blue-800"
-        : emotion === "angry"
-        ? "bg-red-100 text-red-800"
-        : emotion === "surprised"
-        ? "bg-purple-100 text-purple-800"
-        : "bg-gray-100 text-gray-800";
+      emotion === 'happy'
+        ? 'bg-yellow-100 text-yellow-800'
+        : emotion === 'sad'
+          ? 'bg-blue-100 text-blue-800'
+          : emotion === 'angry'
+            ? 'bg-red-100 text-red-800'
+            : emotion === 'surprised'
+              ? 'bg-purple-100 text-purple-800'
+              : 'bg-gray-100 text-gray-800';
 
     return (
-      <div
-        className={`px-4 py-2 rounded-full ${bgColor} font-semibold flex items-center gap-2`}
-      >
+      <div className={`px-4 py-2 rounded-full ${bgColor} font-semibold flex items-center gap-2`}>
         <span className="text-lg">{emoji}</span>
         <span>{emotion}</span>
       </div>
@@ -146,15 +144,13 @@ export default function PostDetailPage() {
           </p>
           <p className="flex items-center gap-2">
             <span className="text-gray-400">🛠</span>
-            <span>
-              수정일: {isModified ? formatDate(post.modifyDate) : "-"}
-            </span>
+            <span>수정일: {isModified ? formatDate(post.modifyDate) : '-'}</span>
           </p>
         </div>
 
         <div className="mt-8 flex justify-between items-center">
           <button
-            onClick={() => router.push("/posts")}
+            onClick={() => router.push('/posts')}
             className="bg-gray-500 text-white px-5 py-2.5 rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2"
           >
             📋 목록으로

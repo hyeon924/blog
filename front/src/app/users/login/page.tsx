@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    const res = await fetch("http://localhost:8080/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('http://localhost:8080/users/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
 
@@ -19,8 +19,8 @@ export default function LoginPage() {
     console.log(result);
 
     if (res.ok) {
-      localStorage.setItem("token", result.data);
-      router.push("/posts");
+      localStorage.setItem('token', result.data);
+      router.push('/posts');
     } else {
       alert(result.message);
     }
@@ -57,7 +57,7 @@ export default function LoginPage() {
         <div className="text-center">
           <span className="text-gray-600">계정이 없으신가요?</span>
           <button
-            onClick={() => router.push("/users/signup")}
+            onClick={() => router.push('/users/signup')}
             className="ml-2 text-blue-500 hover:underline"
           >
             회원가입
