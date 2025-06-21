@@ -1,14 +1,11 @@
 services:
   - type: web
     name: blog-app
-    env: docker
-    repo: https://github.com/hyeon924/blog
+    env: java
     region: singapore
-    branch: main
-    dockerfilePath: back/Dockerfile
-    buildCommand: "./gradlew build -x test"
-    startCommand: "java -jar app.jar"
-    rootDir: back
+    rootDir: .
+    buildCommand: ./gradlew build -x test
+    startCommand: java -jar build/libs/blog-0.0.1-SNAPSHOT.jar
     plan: free
     envVars:
       - key: SPRING_PROFILES_ACTIVE
