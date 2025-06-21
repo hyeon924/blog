@@ -1,10 +1,13 @@
 services:
   - type: web
     name: blog-app
-    env: java
-    rootDir: back # ← 중요! back 디렉토리가 Spring 프로젝트 루트이기 때문
-    buildCommand: ./gradlew build -x test
-    startCommand: java -jar build/libs/blog-0.0.1-SNAPSHOT.jar
+    env: docker
+    repo: https://github.com/hyeon924/blog
+    branch: main
+    rootDir: back
+    dockerfilePath: ""
+    buildCommand: "./gradlew build -x test"
+    startCommand: "java -jar build/libs/blog-0.0.1-SNAPSHOT.jar"
     plan: free
     envVars:
       - key: SPRING_PROFILES_ACTIVE
