@@ -6,6 +6,7 @@ services:
     region: singapore
     branch: main
     dockerfilePath: back/Dockerfile
+    rootDir: back
     buildCommand: "./gradlew build -x test"
     startCommand: "java -jar app.jar"
     plan: free
