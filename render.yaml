@@ -3,7 +3,7 @@ services:
     name: blog-app
     env: java
     region: singapore
-    rootDir: .
+    rootDir: back
     buildCommand: ./gradlew build -x test
     startCommand: java -jar build/libs/blog-0.0.1-SNAPSHOT.jar
     plan: free
