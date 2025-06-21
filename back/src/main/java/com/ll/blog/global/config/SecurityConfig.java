@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // ✅ 변경: deprecated 방지
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/signup", "/users/login", "/email/request-verification-code", "/email/verify-code").permitAll()
+                        .requestMatchers("/", "/users/signup", "/users/login", "/email/request-verification-code", "/email/verify-code").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
